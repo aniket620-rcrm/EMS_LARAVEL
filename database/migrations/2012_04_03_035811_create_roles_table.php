@@ -17,6 +17,8 @@ class CreateRolesTable extends Migration
             $table->id()->autoIncrement();
             $table->string('role_name');
             $table->integer('base_salary');
+            $table->integer('tax');
+            $table->integer('deductions');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ class UserLeaveSeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
            
             DB::table('leaves')->insert([
-                'users_id' => $userId->random()->id,
+                // 'users_id' => $userId->random()->id,
                 'approval_status' => rand(0, 1),
                 'approved_by' => rand(0, 1) ? 'Admin' : 'Manager',
                 'leave_start_date' => now()->addDays(rand(1, 30)),

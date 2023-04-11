@@ -15,9 +15,14 @@ class UserStatusSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 1; $i <= 10; $i++) {
+        $roles = [
+            0,
+            1
+        ];
+
+        foreach($roles as $role) {
         DB::table('user_statuses')->insert([
-            'status' => boolval(random_int(0, 1)),
+            'status' => $role,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

@@ -15,14 +15,17 @@ class CreateSalariesTable extends Migration
     {
         Schema::create('salaries', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->foreignId('users_id')->references('id')->on('users');
-            $table->foreignId('user_statuses_id')->references('id')->on('user_statuses');
-            $table->foreignId('roles_id')->references('id')->on('roles');
-            $table->boolean('paid_status');
-            $table->integer('leave_count');
-            $table->integer('tax');
-            $table->integer('deductions');
+            // $table->unsignedBigInteger('users_id');
+            // $table->foreign('users_id')->references('id')->on('users');
+            // $table->unsignedBigInteger('total_leaves_id');
+            // $table->foreignId('total_leaves__id')->references('id')->on('total_leaves');
+            // $table->unsignedBigInteger('user_statuses_id');
+            // $table->foreignId('user_statuses_id')->references('id')->on('user_statuses');
+            // $table->unsignedBigInteger('users_id');
+            // $table->foreignId('roles_id')->references('id')->on('roles');
+            // $table->integer('leave_count');
             $table->integer('payable_salary');
+            $table->boolean('paid_status');
             $table->timestamps();
         });
     }

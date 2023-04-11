@@ -15,19 +15,19 @@ class UserRolesSeeder extends Seeder
     public function run()
     {
         $roles = [
-            ['role_name' => 'Manager'],
-            ['role_name' => 'Employee'],
+            'Manager',
+            'Employee'
         ];
-
-        for ($i = 1; $i <= 10; $i++) {
         foreach ($roles as $role) {
             DB::table('roles')->insert([
-                'role_name' => $role['role_name'],
+                'role_name' => $role,
                 'base_salary' => rand(100000, 10000000),
+                'tax' => rand(1000, 10000),
+                'deductions' => rand(1000, 10000),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+        }
+
     }
-}
-}
 }

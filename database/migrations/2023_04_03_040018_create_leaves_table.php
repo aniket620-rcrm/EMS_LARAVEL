@@ -15,12 +15,13 @@ class CreateLeavesTable extends Migration
     {
         Schema::create('leaves', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->foreignId('users_id')->references('id')->on('users');
+            // $table->unsignedBigInteger('users_id');
+            // $table->foreign('users_id')->references('id')->on('users');
+            $table->date('leave_start_date');
+            $table->date('leave_end_date');
+            $table->integer('month');
             $table->boolean('approval_status');
             $table->string('approved_by')->nullable();
-            $table->date('leave_start_date')->nullable();
-            $table->date('leave_end_date')->nullable();
-            $table->integer('month')->nullable();
             $table->timestamps();
         });
     }

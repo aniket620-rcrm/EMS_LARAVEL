@@ -15,8 +15,10 @@ class CreateSalaryHistoriesTable extends Migration
     {
         Schema::create('salary_histories', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->foreignId('users_id')->references('id')->on('users');
-            $table->foreignId('salary_id')->references('id')->on('salaries');
+            // $table->unsignedBigInteger('users_id');
+            // $table->foreign('users_id')->references('id')->on('users');
+            // $table->unsignedBigInteger('salary_id');
+            // $table->foreign('salary_id')->references('id')->on('salaries');
             $table->integer('month');
             $table->integer('year');
             $table->integer('received_salary');

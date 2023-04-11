@@ -15,9 +15,10 @@ class CreateTotalLeavesTable extends Migration
     {
         Schema::create('total_leaves', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->foreignId('users_id')->references('id')->on('users');
-            $table->integer('leave_count');
+            // $table->unsignedBigInteger('users_id');
+            // $table->foreign('users_id')->references('id')->on('users');
             $table->integer('month');
+            $table->integer('leave_count');
             $table->timestamps();
         });
     }

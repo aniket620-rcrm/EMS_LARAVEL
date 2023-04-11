@@ -19,8 +19,8 @@ class UserSalaryHistorySeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
            
             DB::table('salary_histories')->insert([
-                'users_id' => $userId->random()->id,
-                'salary_id' => $salaryId->random()->id,
+                // 'users_id' => $userId->random()->id,
+                // 'salary_id' => $salaryId->random()->id,
                 'month' => rand(1, 12),
                 'year' => rand(2010, 2023),
                 'received_salary' => rand(10000, 50000),
