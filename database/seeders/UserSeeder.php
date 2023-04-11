@@ -5,7 +5,7 @@ use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-
+use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
@@ -26,13 +26,23 @@ class UserSeeder extends Seeder
         $leave = \App\Models\Leave::all();
         $leave_count = \App\models\TotalLeave::all();
 
+<<<<<<< HEAD
         $faker = Faker::create();
 
+=======
+        $faker= Faker::create();
+>>>>>>> 0f7915fa26ed69fc1a2a129a21dffee177862ea1
         for ($i = 1; $i <= 10; $i++) {
+            
             DB::table('users')->insert([
+<<<<<<< HEAD
                 'name' => Str::random(10),
                 'phoneNumber'=> $faker->phoneNumber(),
                 'email' => Str::random(10).'@example.com',
+=======
+                'name' => $faker->name(),
+                'email' => $faker->email(),
+>>>>>>> 0f7915fa26ed69fc1a2a129a21dffee177862ea1
                 'password'=> bcrypt('password'),
                 'roles_id' => $role->random()->id,
                 'user_statuses_id' => $user_status->random()->id,
