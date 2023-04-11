@@ -48,4 +48,12 @@ class User extends Authenticatable
     public function status() {
         return $this->belongsTo(UserStatus::class);
     }
+
+    public function leaves() {
+        return $this->belongsTo(Leave::class);
+    }
+
+    public function salary() {
+        return $this->belongsTo(Salary::class);
+    }
 }

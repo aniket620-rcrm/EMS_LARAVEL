@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                 'phoneNumber'=> $faker->phoneNumber(),
                 'password'=> bcrypt('password'),
                 'roles_id' => $role->random()->id,
-                'user_statuses_id' => $user_status->random()->id,
+                'user_status_id' => $user_status->random()->id,
                 'salary_history_id'=> $salary_history->random()->id,
                 'salary_id'=>$salary->random()->id,
                 'leave_id' => $leave->random()->id,

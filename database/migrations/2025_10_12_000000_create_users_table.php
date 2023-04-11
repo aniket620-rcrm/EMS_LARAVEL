@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->unsignedBigInteger('roles_id');
             $table->foreign('roles_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->unsignedBigInteger('user_statuses_id');
-            $table->foreign('user_statuses_id')->references('id')->on('user_statuses')->onDelete('cascade');
+            $table->unsignedBigInteger('user_status_id');
+            $table->foreign('user_status_id')->references('id')->on('user_statuses')->onDelete('cascade');
             $table->unsignedBigInteger('salary_history_id');
             $table->foreign('salary_history_id')->references('id')->on('salary_histories')->onDelete('cascade');
             $table->unsignedBigInteger('salary_id');
