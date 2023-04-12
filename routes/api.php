@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +23,3 @@ use Illuminate\Support\Facades\Route;
 //     return 'Success';
 // });
 
-Route::get('user',[HomeController::class , 'index']);
