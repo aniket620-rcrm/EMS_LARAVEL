@@ -15,10 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserStatusSeeder::class);
         $this->call(UserRolesSeeder::class);
-        $this->call(UserLeaveSeeder::class);
-        $this->call(TotalLeaveSeeder::class);
-        $this->call(UserSalary::class);
-        $this->call(UserSalaryHistorySeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(UserLeaveSeeder::class);
+        $this->call(UserSalary::class);
     }
 }

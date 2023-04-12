@@ -15,14 +15,15 @@ class UserRolesSeeder extends Seeder
     public function run()
     {
         $roles = [
+            'Admin',
             'Manager',
             'Employee'
         ];
         foreach ($roles as $role) {
-            DB::table('roles')->insert([
+            DB::table('user_roles')->insert([
                 'role_name' => $role,
-                'base_salary' => rand(100000, 10000000),
-                'tax' => rand(1000, 10000),
+                'base_salary' => rand(1000000, 10000000),
+                'tax_%' => rand(1,30),
                 'deductions' => rand(1000, 10000),
                 'created_at' => now(),
                 'updated_at' => now(),

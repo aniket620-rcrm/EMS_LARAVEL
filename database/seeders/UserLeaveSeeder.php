@@ -1,7 +1,6 @@
 <?php
 
 namespace Database\Seeders;
-
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,14 +15,21 @@ class UserLeaveSeeder extends Seeder
     {
         $userId = \App\Models\User::all();
         for ($i = 1; $i <= 10; $i++) {
-           
-            DB::table('leaves')->insert([
-                // 'users_id' => $userId->random()->id,
+            DB::table('leave_requests')->insert([
+                'user_id' => $userId->random()->id,
                 'approval_status' => rand(0, 1),
                 'approved_by' => rand(0, 1) ? 'Admin' : 'Manager',
-                'leave_start_date' => now()->addDays(rand(1, 30)),
-                'leave_end_date' => now()->addDays(rand(1, 30)),
-                'month' => rand(1, 12),
+                'leave_start_date' => now()->addDays(rand(1, 15)),
+                'leave_end_date' => now()->addDays(rand(15, 30)),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            DB::table('leave_requests')->insert([
+                'user_id' => $userId->random()->id,
+                'approval_status' => rand(0, 1),
+                'approved_by' => rand(0, 1) ? 'Admin' : 'Manager',
+                'leave_start_date' => now()->addDays(rand(1, 15)),
+                'leave_end_date' => now()->addDays(rand(15, 30)),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

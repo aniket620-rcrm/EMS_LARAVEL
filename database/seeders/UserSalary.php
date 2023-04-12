@@ -22,14 +22,11 @@ class UserSalary extends Seeder
         for ($i = 1; $i <= 10; $i++) {     
             
             DB::table('salaries')->insert([
-                // 'users_id' => $userId->random()->id,
-                // 'user_statuses_id' => $userStatusId->random()->id,
-                // 'roles_id' => $roleId->random()->id,
+                'user_id' => $userId->random()->id,
                 'paid_status' => rand(0, 1),
-                // 'leave_count' => rand(1, 10),
-                // 'tax' => rand(1000, 10000),
-                // 'deductions' => rand(1000, 10000),
-                'payable_salary' => rand(10000, 50000),
+                'payable_salary' => rand(100000, 700000),
+                'month'=>rand(1,12),
+                'year'=>rand(2021,2099),
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

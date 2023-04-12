@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLeavesTable extends Migration
+class CreateLeaveRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateLeavesTable extends Migration
      */
     public function up()
     {
-        Schema::create('leaves', function (Blueprint $table) {
-            $table->id()->autoIncrement();
-            // $table->unsignedBigInteger('users_id');
-            // $table->foreign('users_id')->references('id')->on('users');
+        Schema::create('leave_requests', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('leave_start_date');
             $table->date('leave_end_date');
-            $table->integer('month');
             $table->boolean('approval_status');
-            $table->string('approved_by')->nullable();
+            $table->string('approved_by');
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ class CreateLeavesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leaves');
+        Schema::dropIfExists('leave_requests');
     }
 }

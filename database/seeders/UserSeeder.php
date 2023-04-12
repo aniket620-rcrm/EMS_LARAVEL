@@ -18,12 +18,10 @@ class UserSeeder extends Seeder
     {
 
         
-        $role = \App\Models\roles::all();
+        $role = \App\Models\UserRole::all();
         $user_status = \App\Models\UserStatus::all();
-        $salary_history = \App\Models\SalaryHistory::all();
         $salary = \App\Models\Salary::all();
-        $leave = \App\Models\Leave::all();
-        $leave_count = \App\models\TotalLeave::all();
+        $leave = \App\Models\LeaveRequest::all();
 
         $faker= Faker::create();
         for ($i = 1; $i <= 10; $i++) {
@@ -31,14 +29,11 @@ class UserSeeder extends Seeder
             DB::table('users')->insert([
                 'name' => $faker->name(),
                 'email' => $faker->email(),
-                'phoneNumber'=> $faker->phoneNumber(),
+                'phone'=> $faker->phoneNumber(),
                 'password'=> bcrypt('password'),
-                'roles_id' => $role->random()->id,
+                'image_path'=>$faker->imageUrl(),
+                'user_role_id' => rand(2,3),
                 'user_status_id' => $user_status->random()->id,
-                'salary_history_id'=> $salary_history->random()->id,
-                'salary_id'=>$salary->random()->id,
-                'leave_id' => $leave->random()->id,
-                'leave_count_id' => $leave->random()->id,
                 'joining_date' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),

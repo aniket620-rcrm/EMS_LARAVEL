@@ -14,7 +14,7 @@ class CreateUserStatusesTable extends Migration
     public function up()
     {
         Schema::create('user_statuses', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->boolean('status');
             $table->timestamps();
         });
