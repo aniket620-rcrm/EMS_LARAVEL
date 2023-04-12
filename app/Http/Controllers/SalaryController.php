@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class SalaryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return User::all();
+        //
     }
 
     /**
