@@ -15,7 +15,7 @@ class UserLeaveSeeder extends Seeder
     {
         $userId = \App\Models\User::all();
         for ($i = 1; $i <= 10; $i++) {
-            DB::table('leave_requests')->insert([
+            DB::table('leaves')->insert([
                 'user_id' => $userId->random()->id,
                 'approval_status' => rand(0, 1),
                 'approved_by' => rand(0, 1) ? 'Admin' : 'Manager',
@@ -24,7 +24,7 @@ class UserLeaveSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            DB::table('leave_requests')->insert([
+            DB::table('leaves')->insert([
                 'user_id' => $userId->random()->id,
                 'approval_status' => rand(0, 1),
                 'approved_by' => rand(0, 1) ? 'Admin' : 'Manager',

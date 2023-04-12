@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         $role = \App\Models\UserRole::all();
         $user_status = \App\Models\UserStatus::all();
         $salary = \App\Models\Salary::all();
-        $leave = \App\Models\LeaveRequest::all();
+        $leave = \App\Models\Leave::all();
 
         $faker= Faker::create();
         for ($i = 1; $i <= 10; $i++) {
