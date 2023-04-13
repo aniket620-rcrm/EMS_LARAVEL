@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('password');
-            $table->string('image_path');
+            $table->string('image_path')->nullable();
             $table->date('joining_date');
             $table->timestamps();
         });
