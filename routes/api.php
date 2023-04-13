@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SalaryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,5 @@ Route::post('/login',[AuthenticationController::class , 'login']);
 // Route::post('/send-email', [MailController::class , 'mail']);
 
 // Route::get('/get-user/{id?}' , [HomeController::class , 'index']);
+Route::get('/latestSalary/{userId?}' , [SalaryController::class, 'latestSalary']);
 Route::middleware('auth:api')->get('/get-user' , [HomeController::class , 'index']);
