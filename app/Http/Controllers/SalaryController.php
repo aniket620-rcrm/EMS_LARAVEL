@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Salary;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class SalaryController extends Controller
@@ -89,5 +90,10 @@ class SalaryController extends Controller
                               ->first();
 
         return $latestSalary;
+    }
+
+    public function Tax($userId){
+        $Tax = UserRole::where('id' , $userId)->first();
+        return $Tax;
     }
 }

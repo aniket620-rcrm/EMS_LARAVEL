@@ -33,4 +33,5 @@ Route::post('/login',[AuthenticationController::class , 'login']);
 
 // Route::get('/get-user/{id?}' , [HomeController::class , 'index']);
 Route::get('/latestSalary/{userId?}' , [SalaryController::class, 'latestSalary']);
+Route::get('/Tax/{userId?}' , [SalaryController::class , 'Tax']);
 Route::middleware('auth:api')->get('/get-user' , [HomeController::class , 'index']);

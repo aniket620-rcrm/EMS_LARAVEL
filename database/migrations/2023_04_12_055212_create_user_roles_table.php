@@ -17,7 +17,7 @@ class CreateUserRolesTable extends Migration
             $table->id();
             $table->string('role_name');
             $table->unsignedInteger('base_salary');
-            $table->unsignedInteger('tax_%');
+            $table->unsignedInteger('tax');
             $table->unsignedInteger('deductions');
             $table->timestamps();
         });
