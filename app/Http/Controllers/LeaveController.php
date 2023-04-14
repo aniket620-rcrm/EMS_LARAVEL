@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Leave;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -13,7 +14,8 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        //
+        $activeRequests =  Leave::with('user.UserRole')->get();
+        return $activeRequests;
     }
 
     /**
