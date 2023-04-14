@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\returnSelf;
+
 class UserController extends Controller
 {
     /**
@@ -69,9 +71,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $user = User::findorfail($request->id);
+        $user->user_status_id = $request->user_status_id;
+        $result = $user->save();
+        if($result) {
+            return ['Result'=>'user_status updated'];
+        }else {
+            return ['Result'=>'operation failed!!'];
+        }
     }
 
     /**
