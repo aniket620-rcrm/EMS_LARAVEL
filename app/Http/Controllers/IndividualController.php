@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Leave;
+use App\Models\Salary;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,9 @@ class IndividualController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view()
+    public function view($id)
     {
-        $user=User::all();
+        $user=User::find($id)->with('UserStatus','UserRole')->first();
         return $user;
     }
 
@@ -23,9 +24,11 @@ class IndividualController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function salary($id)
     {
-        //
+        // return $id;
+        $salaries=Salary::where('user_id',$id)->get();
+        return $salaries;
     }
 
     /**
@@ -34,9 +37,11 @@ class IndividualController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function leave($id)
     {
-        //
+        // return $id;
+        $leaves=Leave::where('user_id',$id)->get();
+        return $leaves;
     }
 
     /**
