@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Salary;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class SalaryController extends Controller
@@ -80,5 +82,18 @@ class SalaryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function latestSalary($userId){
+        $latestSalary = Salary::where('user_id', $userId)
+                              ->orderBy('created_at', 'desc')
+                              ->first();
+
+        return $latestSalary;
+    }
+
+    public function Tax($userId){
+        $Tax = UserRole::where('id' , $userId)->first();
+        return $Tax;
     }
 }

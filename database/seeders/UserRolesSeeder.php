@@ -23,7 +23,7 @@ class UserRolesSeeder extends Seeder
             DB::table('user_roles')->insert([
                 'role_name' => $role,
                 'base_salary' => rand(1000000, 10000000),
-                'tax_%' => rand(1,30),
+                'tax' => rand(1,30),
                 'deductions' => rand(1000, 10000),
                 'created_at' => now(),
                 'updated_at' => now(),
