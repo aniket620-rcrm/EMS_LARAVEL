@@ -18,7 +18,10 @@ class UserController extends Controller
     {
         //
         $user = new User();
-        return $user::with(['UserStatus','UserRole'])->get();
+        $result= $user::with(['UserStatus','UserRole'])
+        ->where('user_role_id','!=','1')->get();
+
+        return $result;
     }
 
     /**
