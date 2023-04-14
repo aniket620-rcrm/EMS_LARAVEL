@@ -18,20 +18,20 @@ class AuthenticationController extends Controller
 
         $validation = Validator::make($request->all(),[
         'name' => 'required',
-        'email' => 'required|email',
+        'email' => 'required|email|unique:users,email',
         'phone' => 'required',
-        'password' =>'required',
-        'user_status_id' => 'required',
         'user_role_id' => 'required',
-        'joining_date' => 'required'
         ]);
 
         if($validation->fails()){
-            return response()->json($validation->errors(),202);
+            return response()->json($validation->errors(),200);
         }
 
         $allData = $request->all();
-        $allData['password'] = bcrypt($allData['password']);
+        $allData['password'] = bcrypt('password');
+        $allData['user_status_id'] = 2;
+        $allData['joining_date']= now();
+        $allData['image_path']="https://";
 
         $user = User::create($allData);
 

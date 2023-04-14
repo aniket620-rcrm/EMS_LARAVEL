@@ -32,7 +32,7 @@ Route::post('/register',[AuthenticationController::class , 'register']);
 Route::post('/login',[AuthenticationController::class , 'login']);
 
 Route::apiResource('/users',UserController::class);
-Route::apiResource('/activeLeaves',LeaveController::class);
+Route::apiResource('/activeleaves',LeaveController::class);
 
 // Route::post('/send-email', [MailController::class , 'mail']);
 
