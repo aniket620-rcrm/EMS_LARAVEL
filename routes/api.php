@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IndividualController;
 use App\Http\Controllers\SalaryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,3 +36,6 @@ Route::post('/login',[AuthenticationController::class , 'login']);
 Route::get('/latestSalary/{userId?}' , [SalaryController::class, 'latestSalary']);
 Route::get('/Tax/{userId?}' , [SalaryController::class , 'Tax']);
 Route::middleware('auth:api')->get('/get-user' , [HomeController::class , 'index']);
+
+
+Route::get('users/get' , [IndividualController::class, 'view']);
