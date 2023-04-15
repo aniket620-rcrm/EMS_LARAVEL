@@ -97,4 +97,14 @@ class LeaveController extends Controller
     {
         //
     }
+
+    // public function LeaveRequestForMonth($userId){
+    //     $count = Leave::where('user_id', $userId)->count();
+    //     return $count;
+    // }
+
+    public function RecentLeave($userId){
+        $leave = Leave::where('user_id', $userId)->first();
+        return $leave;
+    }
 }

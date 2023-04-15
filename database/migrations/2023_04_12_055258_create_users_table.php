@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->string('password');
             $table->string('image_path')->nullable();
+            $table->text('Bio');
+            $table->string('city');
             $table->date('joining_date');
             $table->timestamps();
         });
