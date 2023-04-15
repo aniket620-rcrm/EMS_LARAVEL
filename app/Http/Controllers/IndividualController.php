@@ -15,7 +15,7 @@ class IndividualController extends Controller
      */
     public function view($id)
     {
-        $user=User::find($id)->with('UserStatus','UserRole')->first();
+        $user=User::where('id' , $id)->with('UserStatus','UserRole')->first();
         return $user;
     }
 
