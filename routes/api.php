@@ -36,9 +36,9 @@ Route::post('/login',[AuthenticationController::class , 'login']);
 
 //Aniket's Api
 Route::apiResource('/users',UserController::class);
-Route::post('/users/filterbystatus',[UserController::class,'filterByStatus']);
-Route::post('/users/search',[UserController::class,'search']);
-Route::apiResource('/activeleaves',LeaveController::class);
+Route::post('/users/filter',[UserController::class,'filter']);
+Route::apiResource('/leaves',LeaveController::class);
+Route::post('/leaves/filter',[LeaveController::class,'filter']);
 
 // Route::post('/send-email', [MailController::class , 'mail']);
 
