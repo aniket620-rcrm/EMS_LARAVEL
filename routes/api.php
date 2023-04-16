@@ -35,14 +35,16 @@ Route::post('/register',[AuthenticationController::class , 'register']);
 Route::post('/login',[AuthenticationController::class , 'login']);
 
 Route::apiResource('/users',UserController::class);
-Route::apiResource('/activeLeaves',LeaveController::class);
+Route::apiResource('/activeleaves',LeaveController::class);
 
 // Route::post('/send-email', [MailController::class , 'mail']);
 
 // Route::get('/get-user/{id?}' , [HomeController::class , 'index']);
 Route::get('/latestSalary/{userId?}' , [SalaryController::class, 'latestSalary']);
 Route::get('/Tax/{userId?}' , [SalaryController::class , 'Tax']);
+Route::get('/leave/{userId?}' , [LeaveController::class , 'RecentLeave']);
 Route::middleware('auth:api')->get('/get-user' , [HomeController::class , 'index']);
+Route::post('/logout', [AuthenticationController::class , 'logout'])->name('logout');
 
 
 

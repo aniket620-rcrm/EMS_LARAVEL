@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
+use App\Models\User;
+use App\Models\UserStatus;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -14,8 +16,11 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $activeRequests =  Leave::with('user.UserRole')->get();
+        $activeRequests =  Leave::with('user.UserRole')
+        ->where('approval_status','=','2')
+        ->orderBy('leave_start_date','asc')->get();
         return $activeRequests;
+        
     }
 
     /**
@@ -68,9 +73,18 @@ class LeaveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $leave = Leave::findorfail($request->id);
+        $leave->approval_status = $request->approval_status;
+        $leave->approved_by = 'Admin';
+        $result = $leave->save();
+        if($result) {
+            return ['Result'=>'user_status updated'];
+        }else {
+            return ['Result'=>'operation failed!!'];
+        }
     }
 
     /**
@@ -82,5 +96,15 @@ class LeaveController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // public function LeaveRequestForMonth($userId){
+    //     $count = Leave::where('user_id', $userId)->count();
+    //     return $count;
+    // }
+
+    public function RecentLeave($userId){
+        $leave = Leave::where('user_id', $userId)->first();
+        return $leave;
     }
 }
