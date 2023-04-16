@@ -21,10 +21,14 @@ class AuthenticationController extends Controller
         'email' => 'required|email|unique:users,email',
         'phone' => 'required',
         'user_role_id' => 'required',
+        'city'=>'required',
+        'Bio'=>'required',
         ]);
 
         if($validation->fails()){
-            return response()->json($validation->errors(),200);
+            return response()->json([
+                'errors' => $validation->errors(),
+            ], 422);
         }
 
         $allData = $request->all();
