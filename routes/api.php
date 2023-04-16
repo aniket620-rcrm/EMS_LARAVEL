@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\IndividualController;
+use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,3 +53,4 @@ Route::post('/logout', [AuthenticationController::class , 'logout'])->name('logo
 Route::get('user/profile/{id}' , [IndividualController::class, 'view']);
 Route::get('user/salary/{id}',[IndividualController::class,'salary']);
 Route::get('user/leaves/{id}',[IndividualController::class,'leave']);
+Route::get('send/email',[MailController::class,'sendEmail']);
