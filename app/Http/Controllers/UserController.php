@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\returnSelf;
-
 class UserController extends Controller
 {
     /**
@@ -18,8 +16,8 @@ class UserController extends Controller
     {
         //
         $user = new User();
-        $result= $user::with(['UserStatus','UserRole'])
-        ->where('user_role_id','!=','1')->get();
+        $result = $user::with(['UserStatus', 'UserRole'])
+            ->where('user_role_id', '!=', '1')->get();
 
         return $result;
     }
@@ -32,6 +30,51 @@ class UserController extends Controller
     public function create()
     {
         //
+    }
+
+    public function filterByStatus(Request $request)
+    {
+        $filterBy = $request['filterBy'];
+        // $user = new User();
+        //     $result = $user::with(['UserStatus', 'UserRole'])
+        //         ->where([
+        //             ['user_role_id', '!=', '1'],
+        //             ['UserStatus.status','=','1'],
+        //         ])->get();
+
+        //     return $result;
+
+        if ($filterBy === "all") {
+            $user = new User();
+            $result = $user::with(['UserStatus', 'UserRole'])
+                ->where('user_role_id', '!=', '1')->get();
+
+            return $result;
+        } elseif ($filterBy === 'active') {
+            $user = new User();
+            $result = $user::with(['UserStatus', 'UserRole'])
+                ->where('user_role_id', '!=', '1')
+                ->where('User_status_id', '=', '2')->get();
+            return $result;
+        } else {
+            $user = new User();
+            $result = $user::with(['UserStatus', 'UserRole'])
+                ->where('user_role_id', '!=', '1')
+                ->where('user_status_id', '=', '1')->get();
+
+            return $result;
+        }
+
+        // return $request;
+
+    }
+
+    public function search(Request $request) {
+        $input = $request['input'];
+        $user = new User();
+        $result = $user::with(['UserStatus','UserRole'])
+        ->where('name','like','%'.$input.'%')->get();
+        return $result;
     }
 
     /**
@@ -80,10 +123,10 @@ class UserController extends Controller
         $user = User::findorfail($request->id);
         $user->user_status_id = $request->user_status_id;
         $result = $user->save();
-        if($result) {
-            return ['Result'=>'user_status updated'];
-        }else {
-            return ['Result'=>'operation failed!!'];
+        if ($result) {
+            return ['Result' => 'user_status updated'];
+        } else {
+            return ['Result' => 'operation failed!!'];
         }
     }
 

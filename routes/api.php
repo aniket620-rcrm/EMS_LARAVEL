@@ -34,7 +34,10 @@ Route::post('/register',[AuthenticationController::class , 'register']);
 // Route::get('/login',[AuthenticationController::class , 'login']);
 Route::post('/login',[AuthenticationController::class , 'login']);
 
+//Aniket's Api
 Route::apiResource('/users',UserController::class);
+Route::post('/users/filterbystatus',[UserController::class,'filterByStatus']);
+Route::post('/users/search',[UserController::class,'search']);
 Route::apiResource('/activeleaves',LeaveController::class);
 
 // Route::post('/send-email', [MailController::class , 'mail']);
