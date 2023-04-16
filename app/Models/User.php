@@ -26,6 +26,8 @@ class User extends Authenticatable
         'user_status_id',
         'user_role_id',
         'image_path',
+        'city',
+        'Bio',
         'joining_date'
     ];
 
