@@ -14,7 +14,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
         $user = new User();
         $result = $user::with(['UserStatus', 'UserRole'])
             ->where('user_role_id', '!=', '1')->get();
@@ -32,49 +31,39 @@ class UserController extends Controller
         //
     }
 
-    public function filterByStatus(Request $request)
+    public function filter(Request $request)
     {
-        $filterBy = $request['filterBy'];
-        // $user = new User();
-        //     $result = $user::with(['UserStatus', 'UserRole'])
-        //         ->where([
-        //             ['user_role_id', '!=', '1'],
-        //             ['UserStatus.status','=','1'],
-        //         ])->get();
-
-        //     return $result;
-
-        if ($filterBy === "all") {
-            $user = new User();
-            $result = $user::with(['UserStatus', 'UserRole'])
-                ->where('user_role_id', '!=', '1')->get();
-
-            return $result;
-        } elseif ($filterBy === 'active') {
-            $user = new User();
-            $result = $user::with(['UserStatus', 'UserRole'])
+        $filter_by_status = $request['filter_by_status'];
+        $filter_by_role = $request['filter_by_role'];
+        $input = $request['input'];
+        if ($filter_by_status === "all" && $filter_by_role === "all" && strlen($input) === 0) {
+            return $this->index();
+        } elseif ($filter_by_status === 'all' && $filter_by_role === "all") {
+            $result = User::with(['UserStatus', 'UserRole'])
                 ->where('user_role_id', '!=', '1')
-                ->where('User_status_id', '=', '2')->get();
+                ->where('name', 'like', '%' . $input . '%')->get();
+            return $result;
+        } elseif ($filter_by_role !== 'all' && $filter_by_status === 'all') {
+            $result = User::with(['UserStatus', 'UserRole'])
+                ->where('user_role_id', '!=', '1')
+                ->where('User_role_id', '=', $filter_by_role)
+                ->where('name', 'like', '%' . $input . '%')->get();
+            return $result;
+        } elseif ($filter_by_status !== 'all'&&$filter_by_role === 'all') {
+            $result = User::with(['UserStatus', 'UserRole'])
+                ->where('user_role_id', '!=', '1')
+                ->where('User_status_id', '=', $filter_by_status)
+                ->where('name', 'like', '%' . $input . '%')->get();
             return $result;
         } else {
-            $user = new User();
-            $result = $user::with(['UserStatus', 'UserRole'])
-                ->where('user_role_id', '!=', '1')
-                ->where('user_status_id', '=', '1')->get();
 
+            $result = User::with(['UserStatus', 'UserRole'])
+                ->where('user_role_id', '!=', '1')
+                ->where('User_role_id', '=', $filter_by_role)
+                ->where('user_status_id', '=', $filter_by_status)
+                ->where('name', 'like', '%' . $input . '%')->get();
             return $result;
         }
-
-        // return $request;
-
-    }
-
-    public function search(Request $request) {
-        $input = $request['input'];
-        $user = new User();
-        $result = $user::with(['UserStatus','UserRole'])
-        ->where('name','like','%'.$input.'%')->get();
-        return $result;
     }
 
     /**

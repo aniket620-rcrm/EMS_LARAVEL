@@ -17,7 +17,6 @@ class LeaveController extends Controller
     public function index()
     {
         $activeRequests =  Leave::with('user.UserRole')
-        ->where('approval_status','=','2')
         ->orderBy('leave_start_date','asc')->get();
         return $activeRequests;
         
@@ -31,6 +30,58 @@ class LeaveController extends Controller
     public function create()
     {
         //
+    }
+
+    public function filter(Request $request) {
+        $filter_by_role = $request['filter_by_role'];
+        $filter_by_status=$request['filter_by_status'];
+        $input = $request['input'];
+        if($filter_by_role==='all' && $filter_by_status==='all' && strlen($input)===0) {
+            return $this->index();
+        }
+        elseif($filter_by_role==='all' && $filter_by_status==='all')  {
+            $requests =  Leave::with('user.UserRole')
+            ->whereHas('user', function ($query) use ($input) {
+                $query->where('name', 'LIKE', '%' . $input . '%');
+            })
+            ->orderBy('leave_start_date','asc')->get();
+            return $requests;
+        }else if($filter_by_role!=='all' && $filter_by_status==='all') {
+            $requests =  Leave::with('user.UserRole')
+            ->whereHas('user',function($query) use($filter_by_role) {
+                $query->where('user_role_id','=',$filter_by_role);
+            })
+            ->whereHas('user', function ($query) use ($input) {
+                $query->where('name', 'LIKE', '%' . $input . '%');
+            })
+            ->orderBy('leave_start_date','asc')->get();
+            return $requests;
+        }else if($filter_by_role==='all' && $filter_by_status!=='all') {
+            $requests =  Leave::with('user.UserRole')
+            ->where('approval_status','=',$filter_by_status)
+            ->whereHas('user', function ($query) use ($input) {
+                $query->where('name', 'LIKE', '%' . $input . '%');
+            })
+            ->orderBy('leave_start_date','asc')->get();
+            return $requests;
+        }else {
+            $requests =  Leave::with('user.UserRole')
+            ->where('approval_status','=',$filter_by_status)
+            ->whereHas('user',function($query) use($filter_by_role) {
+                $query->where('user_role_id','=',$filter_by_role);
+            })
+            ->whereHas('user', function ($query) use ($input) {
+                $query->where('name', 'LIKE', '%' . $input . '%');
+            })
+            ->orderBy('leave_start_date','asc')->get();
+            return $requests;
+        }
+    }
+
+    public function search(Request $request) {
+        $input = $request['input'];
+        
+        return $result;
     }
 
     /**
@@ -104,7 +155,7 @@ class LeaveController extends Controller
     // }
 
     public function RecentLeave($userId){
-        $leave = Leave::where('user_id', $userId)->first();
+        $leave = Leave::where('user_id', $userId)->orderBy('leave_start_date','asc')->first();
         return $leave;
     }
 }
