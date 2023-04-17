@@ -1,95 +1,46 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Console\Commands;
 
 use App\Models\Leave;
 use App\Models\Salary;
 use App\Models\User;
 use App\Models\UserRole;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Console\Command;
 
-class SalaryController extends Controller
+class GenerateSalary extends Command
 {
     /**
-     * Display a listing of the resource.
+     * The name and signature of the console command.
      *
-     * @return \Illuminate\Http\Response
+     * @var string
      */
-    public function index()
+    protected $signature = 'command:GenerateSalary';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Calculate and add salaries for all active employees in salary table every month on a specific date';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        //
-        $salary = Salary::with('user.UserRole')->get();
-        return $salary;
+        parent::__construct();
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Execute the console command.
      *
-     * @return \Illuminate\Http\Response
+     * @return int
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function generateSalary()
+    public function handle()
     {
         $users = User::with(['UserStatus', 'UserRole'])
             ->whereHas('UserStatus', function ($query) {
@@ -124,21 +75,18 @@ class SalaryController extends Controller
             $final_salary = $total_working_days * $daily_salary;
             $final_salary = $final_salary - (($final_salary * $tax) / 100);
             $final_salary = $final_salary - $deductions;
-            if ($final_salary < 0) {
-                $final_salary = 0;
-            }
-
+            if($final_salary<0) $final_salary = 0;
             // creating salary info
             $salary_info = [
-                'user_id' => $user['id'],
-                'month' => $month,
-                'year' => $year,
-                'leave_count' => $leave_count,
-                'payable_salary' => $final_salary,
-                'paid_status' => 0,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+                'user_id'=>$user['id'],
+                'month'=> $month,
+                'year'=>$year,
+                'leave_count'=>$leave_count,
+                'payable_salary'=>$final_salary,
+                'paid_status'=>0,
+                'created_at'=>now(),
+                'updated_at'=>now(),
+           ];
             $result = Salary::create($salary_info);
         }
     }
@@ -170,9 +118,9 @@ class SalaryController extends Controller
         foreach ($leaves1 as $leave) {
             $leaveStartDate = Carbon::parse($leave->leave_start_date);
             $leaveEndDate = Carbon::parse($leave->leave_end_date);
-            $count += $leaveEndDate->diffInDays($leaveStartDate) + 1;
+            $count += $leaveEndDate->diffInDays($leaveStartDate)+1;
         }
-        //counting leave of type 2
+//counting leave of type 2
         foreach ($leaves2 as $leave) {
             $leaveEndDate = Carbon::parse($leave->leave_end_date);
             $count += $leaveEndDate->day;
@@ -183,20 +131,5 @@ class SalaryController extends Controller
             $count += ($totalDaysInMonth - ($leaveStartDate->day)) + 1;
         }
         return $count;
-    }
-
-    public function latestSalary($userId)
-    {
-        $latestSalary = Salary::where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->first();
-
-        return $latestSalary;
-    }
-
-    public function Tax($userId)
-    {
-        $Tax = UserRole::where('id', $userId)->first();
-        return $Tax;
     }
 }

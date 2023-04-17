@@ -19,6 +19,7 @@ class CreateSalariesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('month');
             $table->unsignedInteger('year');
+            $table->unsignedInteger('leave_count');
             $table->unsignedInteger('payable_salary');
             $table->boolean('paid_status');
             $table->timestamps();

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
-use App\Models\User;
-use App\Models\UserStatus;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -16,10 +15,10 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $activeRequests =  Leave::with('user.UserRole')
-        ->orderBy('leave_start_date','asc')->get();
+        $activeRequests = Leave::with('user.UserRole')
+            ->orderBy('leave_start_date', 'desc')->get();
         return $activeRequests;
-        
+
     }
 
     /**
@@ -32,56 +31,87 @@ class LeaveController extends Controller
         //
     }
 
-    public function filter(Request $request) {
+    public function filter(Request $request)
+    {
         $filter_by_role = $request['filter_by_role'];
-        $filter_by_status=$request['filter_by_status'];
+        $filter_by_status = $request['filter_by_status'];
         $input = $request['input'];
-        if($filter_by_role==='all' && $filter_by_status==='all' && strlen($input)===0) {
+        if ($filter_by_role === 'all' && $filter_by_status === 'all' && strlen($input) === 0) {
             return $this->index();
-        }
-        elseif($filter_by_role==='all' && $filter_by_status==='all')  {
-            $requests =  Leave::with('user.UserRole')
-            ->whereHas('user', function ($query) use ($input) {
-                $query->where('name', 'LIKE', '%' . $input . '%');
-            })
-            ->orderBy('leave_start_date','asc')->get();
+        } elseif ($filter_by_role === 'all' && $filter_by_status === 'all') {
+            $requests = Leave::with('user.UserRole')
+                ->whereHas('user', function ($query) use ($input) {
+                    $query->where('name', 'LIKE', '%' . $input . '%');
+                })
+                ->orderBy('leave_start_date', 'desc')->get();
             return $requests;
-        }else if($filter_by_role!=='all' && $filter_by_status==='all') {
-            $requests =  Leave::with('user.UserRole')
-            ->whereHas('user',function($query) use($filter_by_role) {
-                $query->where('user_role_id','=',$filter_by_role);
-            })
-            ->whereHas('user', function ($query) use ($input) {
-                $query->where('name', 'LIKE', '%' . $input . '%');
-            })
-            ->orderBy('leave_start_date','asc')->get();
+        } else if ($filter_by_role !== 'all' && $filter_by_status === 'all') {
+            $requests = Leave::with('user.UserRole')
+                ->whereHas('user', function ($query) use ($filter_by_role) {
+                    $query->where('user_role_id', '=', $filter_by_role);
+                })
+                ->whereHas('user', function ($query) use ($input) {
+                    $query->where('name', 'LIKE', '%' . $input . '%');
+                })
+                ->orderBy('leave_start_date', 'desc')->get();
             return $requests;
-        }else if($filter_by_role==='all' && $filter_by_status!=='all') {
-            $requests =  Leave::with('user.UserRole')
-            ->where('approval_status','=',$filter_by_status)
-            ->whereHas('user', function ($query) use ($input) {
-                $query->where('name', 'LIKE', '%' . $input . '%');
-            })
-            ->orderBy('leave_start_date','asc')->get();
+        } else if ($filter_by_role === 'all' && $filter_by_status !== 'all') {
+            $requests = Leave::with('user.UserRole')
+                ->where('approval_status', '=', $filter_by_status)
+                ->whereHas('user', function ($query) use ($input) {
+                    $query->where('name', 'LIKE', '%' . $input . '%');
+                })
+                ->orderBy('leave_start_date', 'desc')->get();
             return $requests;
-        }else {
-            $requests =  Leave::with('user.UserRole')
-            ->where('approval_status','=',$filter_by_status)
-            ->whereHas('user',function($query) use($filter_by_role) {
-                $query->where('user_role_id','=',$filter_by_role);
-            })
-            ->whereHas('user', function ($query) use ($input) {
-                $query->where('name', 'LIKE', '%' . $input . '%');
-            })
-            ->orderBy('leave_start_date','asc')->get();
+        } else {
+            $requests = Leave::with('user.UserRole')
+                ->where('approval_status', '=', $filter_by_status)
+                ->whereHas('user', function ($query) use ($filter_by_role) {
+                    $query->where('user_role_id', '=', $filter_by_role);
+                })
+                ->whereHas('user', function ($query) use ($input) {
+                    $query->where('name', 'LIKE', '%' . $input . '%');
+                })
+                ->orderBy('leave_start_date', 'desc')->get();
             return $requests;
         }
     }
+    public function leavegen()
+    {
+        $currentDate = Carbon::now();
+        $month = $currentDate->month;
+        $totalDaysInMonth = $currentDate->daysInMonth;
+         $leaves1 = Leave::where('user_id', 1)
+         ->where('approval_status','=','1')
+         ->whereMonth('leave_start_date', '=', ($month))
+         ->whereMonth('leave_end_date','=',$month)
+         ->get();
+         $leaves2 = Leave::where('user_id', 1)
+         ->whereMonth('leave_start_date', '=', ($month-1))
+         ->whereMonth('leave_end_date','=',$month)
+         ->get();
+         $leaves3 = Leave::where('user_id', 1)
+         ->whereMonth('leave_start_date', '=', ($month))
+         ->whereMonth('leave_end_date','=',$month+1)
+         ->get();
 
-    public function search(Request $request) {
-        $input = $request['input'];
-        
-        return $result;
+         $count = 0;
+         foreach($leaves1 as $leave) {
+            $leaveStartDate = Carbon::parse($leave->leave_start_date);
+            $leaveEndDate = Carbon::parse($leave->leave_end_date);
+            $count += $leaveEndDate->diffInDays($leaveStartDate);
+         }
+
+         foreach($leaves2 as $leave) {
+            $leaveEndDate = Carbon::parse($leave->leave_end_date);
+            $count+= $leaveEndDate->day;
+         }
+
+         foreach($leaves3 as $leave) {
+            $leaveStartDate = Carbon::parse($leave->leave_start_date);
+            $count+=($totalDaysInMonth-($leaveStartDate->day))+1;
+         }
+         return $count;
     }
 
     /**
@@ -131,10 +161,10 @@ class LeaveController extends Controller
         $leave->approval_status = $request->approval_status;
         $leave->approved_by = 'Admin';
         $result = $leave->save();
-        if($result) {
-            return ['Result'=>'user_status updated'];
-        }else {
-            return ['Result'=>'operation failed!!'];
+        if ($result) {
+            return ['Result' => 'user_status updated'];
+        } else {
+            return ['Result' => 'operation failed!!'];
         }
     }
 
@@ -154,8 +184,9 @@ class LeaveController extends Controller
     //     return $count;
     // }
 
-    public function RecentLeave($userId){
-        $leave = Leave::where('user_id', $userId)->orderBy('leave_start_date','asc')->first();
+    public function RecentLeave($userId)
+    {
+        $leave = Leave::where('user_id', $userId)->orderBy('leave_start_date', 'desc')->first();
         return $leave;
     }
 }
