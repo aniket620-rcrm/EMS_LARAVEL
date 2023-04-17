@@ -16,7 +16,9 @@ class UserController extends Controller
     {
         $user = new User();
         $result = $user::with(['UserStatus', 'UserRole'])
-            ->where('user_role_id', '!=', '1')->get();
+            ->whereHas('UserRole',function($query){
+                $query->where('role_name','!=','Admin');
+            })->get();
 
         return $result;
     }

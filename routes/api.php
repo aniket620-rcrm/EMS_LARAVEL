@@ -39,6 +39,9 @@ Route::apiResource('/users',UserController::class);
 Route::post('/users/filter',[UserController::class,'filter']);
 Route::apiResource('/leaves',LeaveController::class);
 Route::post('/leaves/filter',[LeaveController::class,'filter']);
+Route::post('/salary/generate',[SalaryController::class,'generateSalary']);
+Route::get('/salaries',[SalaryController::class,'index']);
+
 
 // Route::post('/send-email', [MailController::class , 'mail']);
 
