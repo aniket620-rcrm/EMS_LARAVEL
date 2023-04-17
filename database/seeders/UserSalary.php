@@ -25,6 +25,7 @@ class UserSalary extends Seeder
                 'user_id' => $userId->random()->id,
                 'paid_status' => rand(0, 1),
                 'payable_salary' => rand(100000, 700000),
+                'leave_count'=>rand(1,15),
                 'month'=>rand(1,12),
                 'year'=>rand(2021,2099),
                 'created_at' => now(),
