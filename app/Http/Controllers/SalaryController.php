@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Salary;
+use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 
@@ -93,7 +94,11 @@ class SalaryController extends Controller
     }
 
     public function Tax($userId){
-        $Tax = UserRole::where('id' , $userId)->first();
+        // echo($userId);
+        $user = User::where('id', $userId)->first();
+        // echo($user);
+        $user_role_id = $user['user_role_id'];
+        $Tax = UserRole::where('id' , $user_role_id)->first();
         return $Tax;
     }
 }

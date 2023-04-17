@@ -78,11 +78,11 @@ class LeaveController extends Controller
         }
     }
 
-    public function search(Request $request) {
-        $input = $request['input'];
+    // public function search(Request $request) {
+    //     $input = $request['input'];
         
-        return $result;
-    }
+    //     return $result;
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -155,7 +155,7 @@ class LeaveController extends Controller
     // }
 
     public function RecentLeave($userId){
-        $leave = Leave::where('user_id', $userId)->orderBy('leave_start_date','asc')->first();
+        $leave = Leave::where('user_id', $userId)->orderBy('created_at','desc')->first();
         return $leave;
     }
 }
