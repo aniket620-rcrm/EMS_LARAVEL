@@ -123,7 +123,7 @@ class UserController extends Controller
         if($user_role!=='Admin') {
             return response()->json([
                 'error' => 'User is not Admin',
-            ], 400);
+            ], 200);
         }
         $user = User::findorfail($request->id);
         $user->user_status_id = $request->user_status_id;
