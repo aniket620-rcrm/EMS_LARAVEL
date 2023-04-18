@@ -89,9 +89,9 @@ class IndividualController extends Controller
         //
     }
 
-    public function updateProfile(Request $request)
+public function updateProfile(Request $request)
 {
-   $id = $request -> id;
+    $id = $request -> id;
   $user = User::findOrFail($id);
   
 //   $user->employee_id = $request->input('employee_id');

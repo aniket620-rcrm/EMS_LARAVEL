@@ -52,6 +52,7 @@ Route::get('/leave/{userId?}' , [LeaveController::class , 'RecentLeave']);
 Route::middleware('auth:api')->get('/get-user' , [HomeController::class , 'index']);
 Route::get('/role' , [HomeController::class , 'role']);
 Route::post('/updateprofile', [IndividualController::class, 'updateProfile']);
+Route::post('/leave-request', [LeaveController::class , 'leaveRequest']);
 
 
 
