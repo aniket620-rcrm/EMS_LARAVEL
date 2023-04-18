@@ -48,7 +48,9 @@ class LeaveController extends Controller
         } else if ($filter_by_role !== 'all' && $filter_by_status === 'all') {
             $requests = Leave::with('user.UserRole')
                 ->whereHas('user', function ($query) use ($filter_by_role) {
-                    $query->where('user_role_id', '=', $filter_by_role);
+                    $query->whereHas('UserRole',function($query) use ($filter_by_role) {
+                        $query->where('role_name','=',$filter_by_role);
+                    });
                 })
                 ->whereHas('user', function ($query) use ($input) {
                     $query->where('name', 'LIKE', '%' . $input . '%');
@@ -67,7 +69,9 @@ class LeaveController extends Controller
             $requests = Leave::with('user.UserRole')
                 ->where('approval_status', '=', $filter_by_status)
                 ->whereHas('user', function ($query) use ($filter_by_role) {
-                    $query->where('user_role_id', '=', $filter_by_role);
+                    $query->whereHas('UserRole',function($query) use ($filter_by_role) {
+                        $query->where('role_name','=',$filter_by_role);
+                    });
                 })
                 ->whereHas('user', function ($query) use ($input) {
                     $query->where('name', 'LIKE', '%' . $input . '%');
