@@ -201,9 +201,12 @@ class SalaryController extends Controller
         return $latestSalary;
     }
 
-    public function Tax($userId)
-    {
-        $Tax = UserRole::where('id', $userId)->first();
+    public function Tax($userId){
+        // echo($userId);
+        $user = User::where('id', $userId)->first();
+        // echo($user);
+        $user_role_id = $user['user_role_id'];
+        $Tax = UserRole::where('id' , $user_role_id)->first();
         return $Tax;
     }
 }

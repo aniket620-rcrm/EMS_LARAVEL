@@ -76,43 +76,13 @@ class LeaveController extends Controller
             return $requests;
         }
     }
-    public function leavegen()
-    {
-        $currentDate = Carbon::now();
-        $month = $currentDate->month;
-        $totalDaysInMonth = $currentDate->daysInMonth;
-         $leaves1 = Leave::where('user_id', 1)
-         ->where('approval_status','=','1')
-         ->whereMonth('leave_start_date', '=', ($month))
-         ->whereMonth('leave_end_date','=',$month)
-         ->get();
-         $leaves2 = Leave::where('user_id', 1)
-         ->whereMonth('leave_start_date', '=', ($month-1))
-         ->whereMonth('leave_end_date','=',$month)
-         ->get();
-         $leaves3 = Leave::where('user_id', 1)
-         ->whereMonth('leave_start_date', '=', ($month))
-         ->whereMonth('leave_end_date','=',$month+1)
-         ->get();
+   
 
-         $count = 0;
-         foreach($leaves1 as $leave) {
-            $leaveStartDate = Carbon::parse($leave->leave_start_date);
-            $leaveEndDate = Carbon::parse($leave->leave_end_date);
-            $count += $leaveEndDate->diffInDays($leaveStartDate);
-         }
-
-         foreach($leaves2 as $leave) {
-            $leaveEndDate = Carbon::parse($leave->leave_end_date);
-            $count+= $leaveEndDate->day;
-         }
-
-         foreach($leaves3 as $leave) {
-            $leaveStartDate = Carbon::parse($leave->leave_start_date);
-            $count+=($totalDaysInMonth-($leaveStartDate->day))+1;
-         }
-         return $count;
-    }
+    // public function search(Request $request) {
+    //     $input = $request['input'];
+        
+    //     return $result;
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -184,9 +154,36 @@ class LeaveController extends Controller
     //     return $count;
     // }
 
-    public function RecentLeave($userId)
-    {
-        $leave = Leave::where('user_id', $userId)->orderBy('leave_start_date', 'desc')->first();
+    public function RecentLeave($userId){
+        $leave = Leave::where('user_id', $userId)->orderBy('created_at','desc')->first();
         return $leave;
     }
+
+public function leaveRequest(Request $request)
+{
+   // Validate the form input
+   $validatedData = $request->validate([
+    'user_id' => 'required|integer',
+    // 'employee_name' => 'required|string|max:255',
+    'leave_start_date' => 'required|date',
+    'leave_end_date' => 'required|date|after_or_equal:leave_start_date',
+]);
+
+// Create a new leave record with the validated data
+$leave = new Leave();
+$leave->user_id = $validatedData['user_id'];
+$leave->leave_start_date = $validatedData['leave_start_date'];
+$leave->leave_end_date = $validatedData['leave_end_date'];
+$leave->approval_status = 0;
+$leave->approved_by = 'Admin';
+$leave->created_at = now();
+$leave->updated_at = now();
+
+// Save the leave record to the database
+$leave->save();
+
+// Redirect back to the form with a success message
+return redirect()->back()->with('success', 'Leave request submitted successfully.');
+}
+
 }

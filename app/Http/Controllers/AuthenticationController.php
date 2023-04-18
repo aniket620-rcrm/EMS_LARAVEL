@@ -72,16 +72,21 @@ class AuthenticationController extends Controller
     //     return $this->CreateNewToken(auth()->refresh());
     // }
 
-    public function logout(Request $request)
-    {
-        $request->user()->tokens()->delete();
+//     public function logout(Request $request)
+//     {
+//         $request->user()->tokens()->delete();
 
-        $this->guard()->logout();
+// // public function logout(Request $request)
 
-        $request->session()->invalidate();
+// // {
+// //     $request->user()->tokens()->delete();
 
-        $request->session()->regenerateToken();
+// //     $this->guard()->logout();
 
-        return redirect('/');
-    }
+// //     $request->session()->invalidate();
+
+// //     $request->session()->regenerateToken();
+
+// //     return redirect('/');
+// // }
 }

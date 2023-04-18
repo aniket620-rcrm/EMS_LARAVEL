@@ -50,7 +50,10 @@ Route::get('/latestSalary/{userId?}' , [SalaryController::class, 'latestSalary']
 Route::get('/Tax/{userId?}' , [SalaryController::class , 'Tax']);
 Route::get('/leave/{userId?}' , [LeaveController::class , 'RecentLeave']);
 Route::middleware('auth:api')->get('/get-user' , [HomeController::class , 'index']);
-Route::post('/logout', [AuthenticationController::class , 'logout'])->name('logout');
+Route::get('/role' , [HomeController::class , 'role']);
+Route::post('/updateprofile', [IndividualController::class, 'updateProfile']);
+Route::post('/leave-request', [LeaveController::class , 'leaveRequest']);
+
 
 
 
