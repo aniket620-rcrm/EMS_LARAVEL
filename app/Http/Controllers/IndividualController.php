@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Leave;
 use App\Models\Salary;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class IndividualController extends Controller
@@ -37,12 +38,29 @@ class IndividualController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function leave($id)
-    {
-        // return $id;
-        $leaves=Leave::where('user_id',$id)->get();
-        return $leaves;
+    
+
+public function leave($id)
+{
+    $leaves = Leave::where('user_id', $id)->get();
+
+    $data = [];
+    foreach ($leaves as $leave) {
+        $data[] = [
+            "id" => $leave->id,
+            "user_id" => $leave->user_id,
+            "leave_start_date" => Carbon::parse($leave->leave_start_date)->format('d-m-Y'),
+            "leave_end_date" => Carbon::parse($leave->leave_end_date)->format('d-m-Y'),
+            "approval_status" => $leave->approval_status,
+            "approved_by" => $leave->approved_by,
+            "created_at" => Carbon::parse($leave->created_at)->format('d-m-Y'),
+            "updated_at" => $leave->updated_at,
+        ];
     }
+
+    return response()->json($data);
+}
+
 
     /**
      * Display the specified resource.
