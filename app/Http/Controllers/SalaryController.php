@@ -89,6 +89,13 @@ class SalaryController extends Controller
         //
     }
 
+    public function filter(Request $request) {
+        $filter_by_role = $request['filter_by_role'];
+        $filter_by_status = $request['filter_by_status'];
+        $input = $request['input'];
+
+    }
+
     public function generateSalary()
     {
         $users = User::with(['UserStatus', 'UserRole'])
