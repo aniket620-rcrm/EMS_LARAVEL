@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Leave extends Model
 {
     use HasFactory;
     public function user() {
         return $this->belongsTo(User::class);
     }
+
 
     public function scopeOrderByCreatedAt($query) {
         return $query->orderBy('created_at', 'desc');
@@ -30,4 +31,8 @@ class Leave extends Model
             });
         });
     }
+   
+
+
+
 }

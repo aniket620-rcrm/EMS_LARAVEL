@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -156,30 +155,33 @@ class LeaveController extends Controller
     }
 
 public function leaveRequest(Request $request)
+
 {
-   // Validate the form input
-   $validatedData = $request->validate([
-    'user_id' => 'required|integer',
-    // 'employee_name' => 'required|string|max:255',
-    'leave_start_date' => 'required|date',
-    'leave_end_date' => 'required|date|after_or_equal:leave_start_date',
-]);
+    // Validate the form input
+    $validatedData = $request->validate([
+        'user_id' => 'required|integer',
+        'leave_start_date' => 'required|date',
+        'leave_end_date' => 'required|date|after_or_equal:leave_start_date',
+        
+    ]);
+    
+    // // Create a new leave record with the validated data
+    $leave = new Leave();
+    $leave->user_id = $validatedData['user_id'];
+    $leave->leave_start_date = $validatedData['leave_start_date'];
+    $leave->leave_end_date = $validatedData['leave_end_date'];
+    $leave->approval_status = 2;
+    $leave->approved_by = 'Pending';
+    $leave->created_at = now();
+    $leave->updated_at = now();
+    $leave->save();
+    return $leave;
+    
+// // Save the leave record to the database
 
-// Create a new leave record with the validated data
-$leave = new Leave();
-$leave->user_id = $validatedData['user_id'];
-$leave->leave_start_date = $validatedData['leave_start_date'];
-$leave->leave_end_date = $validatedData['leave_end_date'];
-$leave->approval_status = 0;
-$leave->approved_by = 'Admin';
-$leave->created_at = now();
-$leave->updated_at = now();
-
-// Save the leave record to the database
-$leave->save();
-
-// Redirect back to the form with a success message
-return redirect()->back()->with('success', 'Leave request submitted successfully.');
+// // Redirect back to the form with a success message
+// return redirect()->back()->with('success', 'Leave request submitted successfully.');
 }
+
 
 }
