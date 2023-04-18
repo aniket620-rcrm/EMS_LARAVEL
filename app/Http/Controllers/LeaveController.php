@@ -164,18 +164,18 @@ public function leaveRequest(Request $request)
    // Validate the form input
    $validatedData = $request->validate([
     'user_id' => 'required|integer',
-    // 'employee_name' => 'required|string|max:255',
     'leave_start_date' => 'required|date',
     'leave_end_date' => 'required|date|after_or_equal:leave_start_date',
+    'approved_by' => 'required'
 ]);
 
 // Create a new leave record with the validated data
 $leave = new Leave();
 $leave->user_id = $validatedData['user_id'];
-$leave->leave_start_date = $validatedData['leave_start_date'];
-$leave->leave_end_date = $validatedData['leave_end_date'];
+$leave->leave_start_date = Carbon::createFromFormat('d-m-Y', $validatedData['start']);
+$leave->leave_end_date = Carbon::createFromFormat('d-m-Y', $validatedData['end']);
 $leave->approval_status = 0;
-$leave->approved_by = 'Admin';
+$leave->approved_by = $validatedData['approved_by'];
 $leave->created_at = now();
 $leave->updated_at = now();
 
@@ -185,5 +185,6 @@ $leave->save();
 // Redirect back to the form with a success message
 return redirect()->back()->with('success', 'Leave request submitted successfully.');
 }
+
 
 }
