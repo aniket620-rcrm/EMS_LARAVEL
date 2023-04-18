@@ -89,6 +89,27 @@ class SalaryController extends Controller
         //
     }
 
+    public function filter(Request $request) {
+        $filter_by_role = $request['filter_by_role'];
+        $filter_by_status = $request['filter_by_status'];
+        $input = $request['input'];
+        if ($filter_by_role === 'all' && $filter_by_status === 'all' && strlen($input) === 0) {
+            return $this->index();
+        } elseif ($filter_by_role === 'all' && $filter_by_status === 'all') { 
+            $results = Salary::with('user.UserRole')
+            ->whereHas('user',function($query) use($input) {
+                $query->where('name','Like','%'.$input.'%');
+            })->get();
+
+            return $results;
+        }else if ($filter_by_role !== 'all' && $filter_by_status === 'all') {
+            $results =  Salary::with('user.UserRole')
+            ->whereHas('user')
+        }
+        return "abc";
+
+    }
+
     public function generateSalary()
     {
         $users = User::with(['UserStatus', 'UserRole'])
@@ -148,7 +169,7 @@ class SalaryController extends Controller
         $currentDate = Carbon::now();
         $month = $currentDate->month;
         $totalDaysInMonth = $currentDate->daysInMonth;
-        //leave start and end date is in this month only
+        //leave start and end date lies in same month only
         $leaves1 = Leave::where('user_id', '=', $id)
             ->where('approval_status', '=', '1')
             ->whereMonth('leave_start_date', '=', ($month))
@@ -194,7 +215,8 @@ class SalaryController extends Controller
         return $latestSalary;
     }
 
-    public function Tax($userId){
+    public function Tax($userId)
+    {
         // echo($userId);
         $user = User::where('id', $userId)->first();
         // echo($user);
