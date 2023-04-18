@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
+use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -122,6 +124,17 @@ class LeaveController extends Controller
     public function update(Request $request)
     {
         //
+        
+        $user_id=$request->user_id;
+        $user = User::where('id','=',$user_id)->first();
+        $user_role_id = $user->user_role_id;
+        $UserRole = UserRole::find($user_role_id);
+        $user_role =  $UserRole->role_name;
+        if($user_role!=='Admin') {
+            return response()->json([
+                'error' => 'User is Not Admin',
+            ], 200);
+        }
         $leave = Leave::findorfail($request->id);
         $leave->approval_status = $request->approval_status;
         $leave->approved_by = 'Admin';

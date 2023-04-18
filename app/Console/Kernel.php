@@ -26,9 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('command:GenerateSalary')->dailyAt('23:59')->when(function () {
-            return \Carbon\Carbon::now()->endOfMonth()->isToday();
-        });
+        $schedule->command('command:GenerateSalary')->dailyAt('18:55');
+        
     }
 
     /**

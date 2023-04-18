@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
-
 class UserController extends Controller
 {
     /**
@@ -115,6 +115,16 @@ class UserController extends Controller
     public function update(Request $request)
     {
         //
+        $user_id=$request->user_id;
+        $user = User::where('id','=',$user_id)->first();
+        $user_role_id = $user->user_role_id;
+        $UserRole = UserRole::where('id','=',$user_role_id)->first();
+        $user_role =  $UserRole->role_name;
+        if($user_role!=='Admin') {
+            return response()->json([
+                'error' => 'User is not Admin',
+            ], 400);
+        }
         $user = User::findorfail($request->id);
         $user->user_status_id = $request->user_status_id;
         $result = $user->save();

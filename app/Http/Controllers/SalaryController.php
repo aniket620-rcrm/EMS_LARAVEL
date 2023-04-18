@@ -93,7 +93,16 @@ class SalaryController extends Controller
     }
 
     public function makeSalaryPaid(Request $request) {
-        
+        $user_id=$request->user_id;
+        $user = User::where('id','=',$user_id)->first();
+        $user_role_id = $user->user_role_id;
+        $UserRole = UserRole::find($user_role_id);
+        $user_role =  $UserRole->role_name;
+        if($user_role!=='Admin') {
+            return response()->json([
+                'error' => 'User is not Admin',
+            ], 400);
+        }
         $id = $request->id;
         $paid_status = $request->paid_status;
         $salary = Salary::find($id);
