@@ -109,18 +109,19 @@ public function leave($id)
 
 public function updateProfile(Request $request)
 {
+    // return "Received";
     $id = $request -> id;
   $user = User::findOrFail($id);
   
 //   $user->employee_id = $request->input('employee_id');
-  $user->name = $request->input('name');
-  $user->email = $request->input('email');
-  $user->phone = $request->input('phone');
-  $user->password = $request->input('password');
+  $user->name = $request->name;
+  $user->email = $request->email;
+  $user->phone = $request->phone;
+  $user->password = bcrypt($request->password);
 //   return $request;
   $user->save();
   
-  return response()->json(['message' => 'Profile updated successfully']);
+  return response()->json(['message' => 'Profile updated successfulllly']);
 }
 
 }
