@@ -104,7 +104,7 @@ class SalaryController extends Controller
             return $results;
         }else if ($filter_by_role !== 'all' && $filter_by_status === 'all') {
             $results =  Salary::with('user.UserRole')
-            ->whereHas('user')
+            ->whereHas('user');
         }
         return "abc";
 
@@ -208,7 +208,7 @@ class SalaryController extends Controller
 
     public function latestSalary($userId)
     {
-        $latestSalary = Salary::where('user_id', $userId)
+        $latestSalary = Salary::where('user_id','=', $userId)
             ->orderBy('created_at', 'desc')
             ->first();
 
