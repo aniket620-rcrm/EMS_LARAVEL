@@ -65,4 +65,29 @@ class User extends Authenticatable
     public function salaries() {
         return $this->hasMany(Salary::class);
     }
+
+
+    //scopes
+
+    public function scopeNotAdmin($query) {
+        return $query->whereHas('UserRole', function ($query) {
+            $query->where('role_name', '!=', 'Admin');
+        });
+    }
+
+    public function scopeFilterBySearch($query,$input) {
+        return $query->where('name', 'Like', '%' . $input . '%');
+    }
+
+    public function scopeFilterByRole($query, $filter_by_role) {
+        return $query->whereHas('UserRole', function ($query) use ($filter_by_role) {
+            $query->where('role_name', '=', $filter_by_role);
+        });
+    }
+
+    public function scopeFilterByStatus($query, $filter_by_status) {
+        return $query->whereHas('UserStatus', function($query)use($filter_by_status) {
+            $query->where('status','=',$filter_by_status);
+        });
+    }
 }
