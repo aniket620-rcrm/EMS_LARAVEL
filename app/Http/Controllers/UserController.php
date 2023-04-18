@@ -16,10 +16,7 @@ class UserController extends Controller
     {
         $user = new User();
         $result = $user::with(['UserStatus', 'UserRole'])
-            ->whereHas('UserRole', function ($query) {
-                $query->where('role_name', '!=', 'Admin');
-            })->get();
-
+            ->notAdmin()->get();
         return $result;
     }
 
@@ -40,46 +37,37 @@ class UserController extends Controller
         $input = $request['input'];
         if ($filter_by_status === "all" && $filter_by_role === "all" && strlen($input) === 0) {
             return $this->index();
-        } elseif ($filter_by_status === 'all' && $filter_by_role === "all") {
+        }
+        
+        elseif ($filter_by_status === 'all' && $filter_by_role === "all") {
             $result = User::with(['UserStatus', 'UserRole'])
-                ->whereHas('UserRole', function ($query) {
-                    $query->where('role_name', '!=', 'Admin');
-                })
-                ->where('name', 'like', '%' . $input . '%')->get();
+                ->notAdmin()
+                ->filterBySearch($input)->get();
             return $result;
-        } elseif ($filter_by_role !== 'all' && $filter_by_status === 'all') {
+        } 
+        
+        elseif ($filter_by_role !== 'all' && $filter_by_status === 'all') {
             $result = User::with(['UserStatus', 'UserRole'])
-                ->whereHas('UserRole', function ($query) {
-                    $query->where('role_name', '!=', 'Admin');
-                })
-                ->whereHas('UserRole', function ($query) use ($filter_by_role) {
-                    $query->where('role_name', '=', $filter_by_role);
-                })
-                ->where('name', 'like', '%' . $input . '%')->get();
+            ->notAdmin()
+                ->filterByRole($filter_by_role)
+                ->filterBySearch($input)->get();
             return $result;
-        } elseif ($filter_by_status !== 'all' && $filter_by_role === 'all') {
+        } 
+        
+        elseif ($filter_by_status !== 'all' && $filter_by_role === 'all') {
             $result = User::with(['UserStatus', 'UserRole'])
-                ->whereHas('UserRole', function ($query) {
-                    $query->where('role_name', '!=', 'Admin');
-                })
-                ->whereHas('UserStatus', function($query)use($filter_by_status) {
-                    $query->where('status','=',$filter_by_status);
-                })
-                ->where('name', 'like', '%' . $input . '%')->get();
+            ->notAdmin()
+                ->filterByStatus($filter_by_status)
+                ->filterBySearch($input)->get();
             return $result;
-        } else {
-
+        } 
+        
+        else {
             $result = User::with(['UserStatus', 'UserRole'])
-                ->whereHas('UserRole', function ($query) {
-                    $query->where('role_name', '!=', 'Admin');
-                })
-                ->whereHas('UserRole', function ($query) use ($filter_by_role) {
-                    $query->where('role_name', '=', $filter_by_role);
-                })
-                ->whereHas('UserStatus', function($query)use($filter_by_status) {
-                    $query->where('status','=',$filter_by_status);
-                })
-                ->where('name', 'like', '%' . $input . '%')->get();
+            ->notAdmin()
+                ->filterByRole($filter_by_role)
+                ->filterByStatus($filter_by_status)
+                ->filterBySearch($input)->get();
             return $result;
         }
     }

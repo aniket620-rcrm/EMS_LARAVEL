@@ -40,6 +40,8 @@ Route::post('/users/filter',[UserController::class,'filter']);
 Route::apiResource('/leaves',LeaveController::class);
 Route::post('/leaves/filter',[LeaveController::class,'filter']);
 Route::post('/salary/generate',[SalaryController::class,'generateSalary']);
+Route::post('/salaries/filter',[SalaryController::class,'filter']);
+Route::post('/salaries/pay',[SalaryController::class,'makeSalaryPaid']);
 Route::get('/salaries',[SalaryController::class,'index']);
 
 

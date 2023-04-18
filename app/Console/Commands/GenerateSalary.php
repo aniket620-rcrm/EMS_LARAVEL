@@ -75,18 +75,21 @@ class GenerateSalary extends Command
             $final_salary = $total_working_days * $daily_salary;
             $final_salary = $final_salary - (($final_salary * $tax) / 100);
             $final_salary = $final_salary - $deductions;
-            if($final_salary<0) $final_salary = 0;
+            if ($final_salary < 0) {
+                $final_salary = 0;
+            }
+
             // creating salary info
             $salary_info = [
-                'user_id'=>$user['id'],
-                'month'=> $month,
-                'year'=>$year,
-                'leave_count'=>$leave_count,
-                'payable_salary'=>$final_salary,
-                'paid_status'=>0,
-                'created_at'=>now(),
-                'updated_at'=>now(),
-           ];
+                'user_id' => $user['id'],
+                'month' => $month,
+                'year' => $year,
+                'leave_count' => $leave_count,
+                'payable_salary' => $final_salary,
+                'paid_status' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
             $result = Salary::create($salary_info);
         }
     }
@@ -96,7 +99,7 @@ class GenerateSalary extends Command
         $currentDate = Carbon::now();
         $month = $currentDate->month;
         $totalDaysInMonth = $currentDate->daysInMonth;
-        //leave start and end date is in this month only
+        //leave start and end date lies in same month only
         $leaves1 = Leave::where('user_id', '=', $id)
             ->where('approval_status', '=', '1')
             ->whereMonth('leave_start_date', '=', ($month))
@@ -118,9 +121,9 @@ class GenerateSalary extends Command
         foreach ($leaves1 as $leave) {
             $leaveStartDate = Carbon::parse($leave->leave_start_date);
             $leaveEndDate = Carbon::parse($leave->leave_end_date);
-            $count += $leaveEndDate->diffInDays($leaveStartDate)+1;
+            $count += $leaveEndDate->diffInDays($leaveStartDate) + 1;
         }
-//counting leave of type 2
+        //counting leave of type 2
         foreach ($leaves2 as $leave) {
             $leaveEndDate = Carbon::parse($leave->leave_end_date);
             $count += $leaveEndDate->day;
