@@ -109,6 +109,7 @@ public function leave($id)
 
 public function updateProfile(Request $request)
 {
+    // return "Received";
     $id = $request -> id;
   $user = User::findOrFail($id);
   
@@ -120,6 +121,7 @@ public function updateProfile(Request $request)
 //   return $request;
   $user->save();
   
+
   return $user;
 }
 
