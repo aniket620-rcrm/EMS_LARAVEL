@@ -58,6 +58,7 @@ Route::post('/leave-request', [LeaveController::class , 'leaveRequest']);
 
 // Api Aman Tripathi {Don't Enter in my territory}
 Route::get('user/profile/{id}' , [IndividualController::class, 'view']);
+Route::post('/updateprofile', [IndividualController::class, 'updateProfile']);
 Route::get('user/salary/{id}',[IndividualController::class,'salary']);
 Route::get('user/leaves/{id}',[IndividualController::class,'leave']);
 Route::get('send/email',[MailController::class,'sendEmail']);

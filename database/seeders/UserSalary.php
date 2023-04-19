@@ -23,7 +23,7 @@ class UserSalary extends Seeder
             
             DB::table('salaries')->insert([
                 'user_id' => $userId->random()->id,
-                'paid_status' => rand(0, 1),
+                'paid_status' => 0,
                 'payable_salary' => rand(100000, 700000),
                 'leave_count'=>rand(1,15),
                 'month'=>rand(1,12),
