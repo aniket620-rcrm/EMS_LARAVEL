@@ -18,7 +18,7 @@ class UserLeaveSeeder extends Seeder
             DB::table('leaves')->insert([
                 'user_id' => $userId->random()->id,
                 'approval_status' => rand(0, 2),
-                'approved_by' => rand(0, 1) ? 'Admin' : 'Manager',
+                'approved_by' => 'Admin',
                 'leave_start_date' => now()->addDays(rand(1, 15)),
                 'leave_end_date' => now()->addDays(rand(15, 30)),
                 'created_at' => now(),
@@ -27,7 +27,7 @@ class UserLeaveSeeder extends Seeder
             DB::table('leaves')->insert([
                 'user_id' => $userId->random()->id,
                 'approval_status' => rand(0, 2),
-                'approved_by' => rand(0, 1) ? 'Admin' : 'Manager',
+                'approved_by' =>  'Admin' ,
                 'leave_start_date' => now()->addDays(rand(1, 15)),
                 'leave_end_date' => now()->addDays(rand(15, 30)),
                 'created_at' => now(),
