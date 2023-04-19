@@ -121,7 +121,8 @@ public function updateProfile(Request $request)
 //   return $request;
   $user->save();
   
-  return response()->json(['message' => 'Profile updated successfulllly']);
+
+  return $user;
 }
 
 }
