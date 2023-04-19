@@ -114,25 +114,15 @@ public function updateProfile(Request $request)
   $user = User::findOrFail($id);
   
 //   $user->employee_id = $request->input('employee_id');
-<<<<<<< HEAD
+
   $user->name = $request->name;
   $user->email = $request->email;
   $user->phone = $request->phone;
   $user->password = bcrypt($request->password);
 //   return $request;
   $user->save();
-  
-  return response($user);
-=======
-  $user->name = $request->input('name');
-  $user->email = $request->input('email');
-  $user->phone = $request->input('phone');
-  $user->password = bcrypt($request->input('password'));
-//   return $request;
-  $user->save();
-  
+
   return $user;
->>>>>>> e769a3ed5d0405f2e41b9ccac2d37cd268c864d9
 }
 
 }
