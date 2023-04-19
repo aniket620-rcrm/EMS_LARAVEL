@@ -30,9 +30,6 @@ use Illuminate\Support\Facades\Route;
 //     return 'Success';
 // });
 
-Route::post('/register',[AuthenticationController::class , 'register']);
-// Route::get('/login',[AuthenticationController::class , 'login']);
-Route::post('/login',[AuthenticationController::class , 'login']);
 
 //Aniket's Api
 Route::post('/users/update',[UserController::class,'update']);
@@ -42,20 +39,17 @@ Route::post('/leaves/update',[LeaveController::class,'update']);
 Route::post('/leaves/filter',[LeaveController::class,'filter']);
 Route::apiResource('/leaves',LeaveController::class);
 Route::post('/salary/generate',[SalaryController::class,'generateSalary']);
-Route::post('/salaries/filter',[SalaryController::class,'filter']);
-Route::post('/salaries/pay',[SalaryController::class,'makeSalaryPaid']);
-Route::get('/salaries',[SalaryController::class,'index']);
 
 
-// Route::post('/send-email', [MailController::class , 'mail']);
 
-// Route::get('/get-user/{id?}' , [HomeController::class , 'index']);
+
+Route::post('/register',[AuthenticationController::class , 'register']);
+Route::post('/login',[AuthenticationController::class , 'login']);
 Route::get('/latestSalary/{userId?}' , [SalaryController::class, 'latestSalary']);
 Route::get('/Tax/{userId?}' , [SalaryController::class , 'Tax']);
 Route::get('/leave/{userId?}' , [LeaveController::class , 'RecentLeave']);
 Route::middleware('auth:api')->get('/get-user' , [HomeController::class , 'index']);
 Route::get('/role' , [HomeController::class , 'role']);
-Route::post('/updateprofile', [IndividualController::class, 'updateProfile']);
 Route::post('/leave-request', [LeaveController::class , 'leaveRequest']);
 
 
@@ -67,3 +61,7 @@ Route::get('user/profile/{id}' , [IndividualController::class, 'view']);
 Route::get('user/salary/{id}',[IndividualController::class,'salary']);
 Route::get('user/leaves/{id}',[IndividualController::class,'leave']);
 Route::get('send/email',[MailController::class,'sendEmail']);
+Route::post('/updateprofile', [IndividualController::class, 'updateProfile']);
+Route::post('/salaries/filter',[SalaryController::class,'filter']);
+Route::post('/salaries/pay',[SalaryController::class,'makeSalaryPaid']);
+Route::get('/salaries',[SalaryController::class,'index']);
