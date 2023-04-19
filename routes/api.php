@@ -35,11 +35,15 @@ Route::post('/register',[AuthenticationController::class , 'register']);
 Route::post('/login',[AuthenticationController::class , 'login']);
 
 //Aniket's Api
+Route::post('/users/update',[UserController::class,'update']);
 Route::apiResource('/users',UserController::class);
 Route::post('/users/filter',[UserController::class,'filter']);
-Route::apiResource('/leaves',LeaveController::class);
+Route::post('/leaves/update',[LeaveController::class,'update']);
 Route::post('/leaves/filter',[LeaveController::class,'filter']);
+Route::apiResource('/leaves',LeaveController::class);
 Route::post('/salary/generate',[SalaryController::class,'generateSalary']);
+Route::post('/salaries/filter',[SalaryController::class,'filter']);
+Route::post('/salaries/pay',[SalaryController::class,'makeSalaryPaid']);
 Route::get('/salaries',[SalaryController::class,'index']);
 
 
