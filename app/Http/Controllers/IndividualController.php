@@ -116,11 +116,11 @@ public function updateProfile(Request $request)
   $user->name = $request->input('name');
   $user->email = $request->input('email');
   $user->phone = $request->input('phone');
-  $user->password = $request->input('password');
+  $user->password = bcrypt($request->input('password'));
 //   return $request;
   $user->save();
   
-  return response()->json(['message' => 'Profile updated successfully']);
+  return $user;
 }
 
 }
