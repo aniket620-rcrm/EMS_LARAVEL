@@ -34,14 +34,16 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/get-user', [HomeController::class, 'index']);
     Route::get('/role', [HomeController::class, 'role']);
     Route::post('/leave-request', [LeaveController::class, 'leaveRequest']);
+    Route::post('/register', [AuthenticationController::class, 'register']);
+    Route::get('/latestSalary/{userId?}', [SalaryController::class, 'latestSalary']);
+    Route::get('/Tax/{userId?}', [SalaryController::class, 'Tax']);
+    Route::get('/leave/{userId?}', [LeaveController::class, 'RecentLeave']);
+
 });
 
 
-Route::post('/register', [AuthenticationController::class, 'register']);
+
 Route::post('/login', [AuthenticationController::class, 'login']);
-Route::get('/latestSalary/{userId?}', [SalaryController::class, 'latestSalary']);
-Route::get('/Tax/{userId?}', [SalaryController::class, 'Tax']);
-Route::get('/leave/{userId?}', [LeaveController::class, 'RecentLeave']);
 
 
 Route::middleware(['auth:api'])->group(function () {
