@@ -8,7 +8,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\IndividualController;
 use App\Http\Controllers\MailController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
