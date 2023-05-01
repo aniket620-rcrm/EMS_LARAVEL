@@ -69,34 +69,4 @@ class AuthenticationController extends Controller
             return response()->json(['error' => 'UnAuthorized Access'], );
         }
     }
-
-    // public function CreateNewToken($token){
-    //     return response()->json([
-    //         'access_token' => $token,
-    //         'token_type' => 'bearer',
-    //         'user' => auth()->user()
-    //     ]);
-    // }
-
-    // public function refresh(){
-    //     return $this->CreateNewToken(auth()->refresh());
-    // }
-
-//     public function logout(Request $request)
-//     {
-//         $request->user()->tokens()->delete();
-
-// // public function logout(Request $request)
-
-// // {
-// //     $request->user()->tokens()->delete();
-
-// //     $this->guard()->logout();
-
-// //     $request->session()->invalidate();
-
-// //     $request->session()->regenerateToken();
-
-// //     return redirect('/');
-// // }
 }
