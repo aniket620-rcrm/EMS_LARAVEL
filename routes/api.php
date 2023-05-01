@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\getImage;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\HomeController;
@@ -37,9 +38,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/latestSalary/{userId?}', [SalaryController::class, 'latestSalary']);
     Route::get('/Tax/{userId?}', [SalaryController::class, 'Tax']);
     Route::get('/leave/{userId?}', [LeaveController::class, 'RecentLeave']);
+   
 
 });
 
+Route::post('/upload', [ImageController::class , 'upload']);
+Route::get('/getImage/user/{userId}/images', [getImage::class , 'index']);
 
 
 Route::post('/login', [AuthenticationController::class, 'login']);

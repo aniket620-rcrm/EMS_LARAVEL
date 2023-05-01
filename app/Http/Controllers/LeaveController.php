@@ -75,12 +75,6 @@ class LeaveController extends Controller
     }
    
 
-    // public function search(Request $request) {
-    //     $input = $request['input'];
-        
-    //     return $result;
-    // }
-
     /**
      * Store a newly created resource in storage.
      *
