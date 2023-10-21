@@ -1,0 +1,14 @@
+{
+    "isbn": "123-456-2",  
+    "author": 
+        {
+        "lastname": "De",
+        "firstname": "Jne"
+        },
+    "editor": 
+        {
+        "lastname": "Sth",
+        "firstname": "Jae"
+        },
+    "title": "The Ultimate Daase Study Guide"
+ }
